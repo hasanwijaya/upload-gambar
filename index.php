@@ -1,9 +1,10 @@
 <?php 
+    header('Content-Type: application/json');
+
     if ($_SERVER['REQUEST_METHOD']=='POST') {
         $mysqli = new mysqli('localhost', 'root', '', 'testing');
 
         if ($mysqli->connect_errno) {
-            header('Content-Type: application/json');
             die (json_encode([
                 "status" => "error",
                 "message" => $mysqli->connect_error
@@ -24,27 +25,23 @@
 
                     $sql = "INSERT INTO images (image) VALUES ('$fileName')";
                     if ($mysqli->query($sql)) {
-                        header('Content-Type: application/json');
                         echo json_encode([
                             "status" => "success",
                             "message" => "upload image berhasil"
                         ]);
                     } else {
-                        header('Content-Type: application/json');
                         echo json_encode([
                             "status" => "error",
                             "message" => $mysqli->error
                         ]);
                     } 
                 } else {
-                    header('Content-Type: application/json');
                     echo json_encode([
                         "status" => "error",
                         "message" => "format image harus png atau jpeg"
                     ]);
                 }
             } else {
-                header('Content-Type: application/json');
                 echo json_encode([
                     "status" => "error",
                     "message" => "size image max 5MB"
